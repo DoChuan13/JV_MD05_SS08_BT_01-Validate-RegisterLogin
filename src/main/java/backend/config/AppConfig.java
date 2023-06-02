@@ -1,5 +1,6 @@
 package backend.config;
 
+import backend.formatter.SampleFormatter;
 import backend.services.sample.ISampleService;
 import backend.services.sample.SampleServiceIMPL;
 import org.springframework.beans.BeansException;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -48,6 +50,9 @@ import java.util.Properties;
 @ComponentScan("backend.controller")
 @EnableJpaRepositories("backend.repository")
 public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
+    /**
+     * <h3>00. Application Context Configuration</h3>
+     */
     private ApplicationContext applicationContext;
     @Value("${file-upload}")
     private String fileUpload;
@@ -57,7 +62,14 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         this.applicationContext = applicationContext;
     }
 
-    //***Import Files Configuration
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addFormatter(new SampleFormatter(applicationContext.getBean(SampleServiceIMPL.class)));
+    }
+
+    /**
+     * <h3>00. Import Files Configuration</h3>
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/files/**").addResourceLocations("file:" + fileUpload);
