@@ -1,9 +1,7 @@
 package backend.config;
 
-import backend.repository.GenericRepositoryIMPL;
-import backend.repository.IGenericRepository;
-import backend.services.GenericServiceIMPL;
-import backend.services.IGenericService;
+import backend.services.sample.ISampleService;
+import backend.services.sample.SampleServiceIMPL;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,10 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -31,11 +33,20 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
+/**
+ * <h3>Setup Annotations for Config Class</h3>
+ * <p><b>Configuration</b>, <b>EnableWebMvc</b></p>
+ * <p><b>EnableTransactionManagement</b>, <b>EnableSpringDataWebSupport</b></p>
+ * <p><b>PropertySource</b> for Upload File, <b>ComponentScan</b> for Controller</p>
+ * <p><b>EnableJpaRepositories</b> for Repositories</p>
+ */
 @Configuration
 @EnableWebMvc
 @EnableTransactionManagement
+@EnableSpringDataWebSupport
 @PropertySource("classpath:file-upload.properties")
 @ComponentScan("backend.controller")
+@EnableJpaRepositories("backend.repository")
 public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     private ApplicationContext applicationContext;
     @Value("${file-upload}")
@@ -50,7 +61,8 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/files/**").addResourceLocations("file:" + fileUpload);
-        /*registry.addResourceHandler("/static/css/**").addResourceLocations("/static/css/**");*/
+        registry.addResourceHandler("/css/**").addResourceLocations("/resources/css/");
+        registry.addResourceHandler("/js/**").addResourceLocations("/resources/js/");
     }
 
     @Bean(name = "multipartResolver")
@@ -60,7 +72,12 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         return resolver;
     }
 
-    //01. Thymeleaf Resolver Configuration
+    /**
+     * <h3>01. Thymeleaf Resolver Configuration</h3>
+     * <p>Step 1: Create Spring Resource <b>Template Resolver</b> Configuration</p>
+     * <p>Step 2: Create Spring <b>Template Engine</b> Configuration</p>
+     * <p>Step 3: Create Thymeleaf <b>View Resolver</b> Configuration</p>
+     */
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
         SpringResourceTemplateResolver templateResolver = new SpringResourceTemplateResolver();
@@ -86,14 +103,24 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         return viewResolver;
     }
 
-    //02. JPA Configuration
+    /**
+     * <h3>02. JPA Configuration</h3>
+     * <p>Step 1: Create <b>Data Source</b> with Database Configuration</p>
+     * <p>Step 2: Addition More <b>Properties</b> for Database Configuration</p>
+     * <p>Step 3: Create <b>Entity Manager Factory Bean</b> for Models and <b>JPA Hibernate</b> Configuration</p>
+     * <p>Step 4: Create <b>Entity Manager Factory</b> Configuration</p>
+     * <p>Step 5: Create <b>Transaction Manager</b> Configuration</p>
+     */
     @Bean
     public DataSource dataSource() {
+        String DATABASE = System.getenv("DATABASE") + "cms";
+        String USER = System.getenv("USER");
+        String PASSWORD = System.getenv("PASSWORD");
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/cms");
-        dataSource.setUsername("root");
-        dataSource.setPassword("ChuanDo@13");
+        dataSource.setUrl(DATABASE);
+        dataSource.setUsername(USER);
+        dataSource.setPassword(PASSWORD);
         return dataSource;
     }
 
@@ -124,15 +151,19 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         return entityManagerFactory.createEntityManager();
     }
 
-
-    //03. Injection Services
     @Bean
-    public IGenericService genericService() {
-        return new GenericServiceIMPL();
+    public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+        JpaTransactionManager transactionManager = new JpaTransactionManager();
+        transactionManager.setEntityManagerFactory(emf);
+        return transactionManager;
     }
 
+    /**
+     * <h3>03. Injection Services</h3>
+     * <p>All Collection of Service Beans</p>
+     */
     @Bean
-    public IGenericRepository genericRepository() {
-        return new GenericRepositoryIMPL();
+    public ISampleService sampleService() {
+        return new SampleServiceIMPL();
     }
 }
