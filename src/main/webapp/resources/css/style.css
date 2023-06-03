@@ -1,5 +1,11 @@
 /*All CSS in here*/
-h1 {
+#high-king {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+}
+
+#high-king.h1 {
     text-align: center;
     color: blue;
 }
