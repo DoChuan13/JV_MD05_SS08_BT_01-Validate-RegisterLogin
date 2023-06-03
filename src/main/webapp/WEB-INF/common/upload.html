@@ -1,14 +1,16 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="java">
+<html lang="java" xmlns:th="http://www.thymeleaf.org">
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body th:fragment="upload-files">
-<input type="file" multiple value="upload" accept=".jpg,.jpeg,.png" id="fileButton"/>
+<progress id="uploader" max="100" value="0">0%</progress>
+<input accept=".jpg,.jpeg,.png" id="fileButton" multiple type="file" value="upload"/>
 <br/>
-<input name="avatar" type="text" id="avatar" style="display: none"/>
+<label for="avatar"></label>
+<input id="avatar" name="avatar" style="display: none" type="text"/>
 <div id="imgDiv"></div>
 
 <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
@@ -43,10 +45,33 @@
             };
             const task = ref.child(name).put(file, metadata);
 
+            task.on(firebase.storage.TaskEvent.STATE_CHANGED, function (snapshot) {
+                let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                uploader.value = progress;
+                console.log('Upload is ' + progress + '% done');
+                switch (snapshot.state) {
+                    case firebase.storage.TaskState.PAUSED: // or 'paused'
+                        console.log('Upload is paused');
+                        break;
+                    case firebase.storage.TaskState.RUNNING: // or 'running'
+                        console.log('Upload is running');
+                        break;
+                }
+            }, function (error) {
+                switch (error.code) {
+                    case 'storage/unauthorized':
+                        break;
+
+                    case 'storage/canceled':
+                        break;
+
+                    case 'storage/unknown':
+                        break;
+                }
+            })
 
             task.then(snapshot => snapshot.ref.getDownloadURL()).then(url => {
                 // console.log(url);
-
                 // alert('image uploaded successfully');
                 let divLocation = document.getElementById("imgDiv");
                 let imgElement = document.createElement("img");

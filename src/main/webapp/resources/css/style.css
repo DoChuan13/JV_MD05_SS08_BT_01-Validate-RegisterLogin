@@ -2,10 +2,15 @@
 #high-king {
     display: flex;
     flex-direction: column;
-    align-items: center
+    align-items: center;
+    gap: 10px;
 }
 
-#high-king.h1 {
+#high-king h1 {
     text-align: center;
     color: blue;
+}
+
+#high-king img {
+    width: 300px;
 }
