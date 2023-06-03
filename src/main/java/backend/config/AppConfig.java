@@ -151,7 +151,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
         em.setDataSource(dataSource());
         em.setPackagesToScan("backend.model");
-        System.out.println("Connect MySQL successful!!!");
+        System.out.println("Connect MySQL successful!!! ==> Copyright by DoChuan");
 
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
