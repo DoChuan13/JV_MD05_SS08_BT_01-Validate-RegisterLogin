@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="file://$PROJECT_DIR$" libraries="{font-awesome}" />
-    <file url="file://$PROJECT_DIR$/src/main" libraries="{font-awesome}" />
-    <file url="file://$PROJECT_DIR$/src/test" libraries="{font-awesome}" />
+    <file url="file://$PROJECT_DIR$" libraries="{bootstrap, firebase-app, firebase-storage, font-awesome}" />
+    <file url="file://$PROJECT_DIR$/src/main" libraries="{bootstrap, firebase-app, firebase-storage, font-awesome}" />
+    <file url="file://$PROJECT_DIR$/src/test" libraries="{bootstrap, firebase-app, firebase-storage, font-awesome}" />
   </component>
 </project>
