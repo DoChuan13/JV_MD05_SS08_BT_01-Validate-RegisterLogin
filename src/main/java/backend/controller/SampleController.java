@@ -1,6 +1,7 @@
 package backend.controller;
 
 import backend.model.Sample;
+import backend.services.role.IRoleService;
 import backend.services.sample.ISampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class SampleController {
     @Autowired
     public ISampleService sampleService;
+    @Autowired
+    public IRoleService roleService;
 
     @ModelAttribute("sampleList")
     public Iterable<Sample> sampleList() {

@@ -1,6 +1,8 @@
 package backend.config;
 
 import backend.formatter.SampleFormatter;
+import backend.services.role.IRoleService;
+import backend.services.role.RoleServiceIMPL;
 import backend.services.sample.ISampleService;
 import backend.services.sample.SampleServiceIMPL;
 import org.springframework.beans.BeansException;
@@ -141,7 +143,7 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public Properties additionalProperties() {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
-        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
+        properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         properties.setProperty("hibernate.show_sql", "true");
         return properties;
     }
@@ -176,6 +178,11 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
      * <h3>03. Injection Services</h3>
      * <p>All Collection of Service Beans</p>
      */
+    @Bean
+    public IRoleService roleService() {
+        return new RoleServiceIMPL();
+    }
+
     @Bean
     public ISampleService sampleService() {
         return new SampleServiceIMPL();

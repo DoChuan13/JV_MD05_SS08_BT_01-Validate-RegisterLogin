@@ -12,6 +12,7 @@ public class SampleServiceIMPL implements ISampleService {
     @Autowired
     private ISampleRepository sampleRepository;
 
+
     @Override
     public Iterable<Sample> findAll() {
         return sampleRepository.findAll();
