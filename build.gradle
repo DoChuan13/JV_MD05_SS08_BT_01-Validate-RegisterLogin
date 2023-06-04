@@ -16,6 +16,9 @@ dependencies {
 
     // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
     compileOnly group: 'javax.servlet', name: 'javax.servlet-api', version: '4.0.1'
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.1.Final'
+
     // https://mvnrepository.com/artifact/mysql/mysql-connector-java
     implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.33'
 
@@ -23,11 +26,13 @@ dependencies {
     implementation group: 'org.springframework', name: 'spring-webmvc', version: '5.3.27'
     // https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf-spring5
     implementation group: 'org.thymeleaf', name: 'thymeleaf-spring5', version: '3.1.1.RELEASE'
-    
+
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-core
     implementation group: 'org.hibernate', name: 'hibernate-core', version: '5.4.33.Final'
     // https://mvnrepository.com/artifact/org.hibernate/hibernate-entitymanager
     implementation group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.3.29.Final'
+    // https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator
+    implementation group: 'org.hibernate.validator', name: 'hibernate-validator', version: '6.2.5.Final'
 
     // https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
     implementation group: 'org.springframework.data', name: 'spring-data-jpa', version: '2.4.15'
