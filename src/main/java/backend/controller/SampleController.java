@@ -54,7 +54,6 @@ public class SampleController {
     @GetMapping("/register")
     public ModelAndView showFormRegister() {
         ModelAndView view = new ModelAndView("login-register/register");
-//        view.addObject("validate", " Register Form");
         view.addObject("option", "register");
         return view;
     }

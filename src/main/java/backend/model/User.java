@@ -19,17 +19,23 @@ public class User extends ImplicitNamingStrategyJpaCompliantImpl {
     private Long id;
     @NotEmpty
     @Size(min = 1, max = 30)
-    private String name = "";
+    @Column(nullable = false, length = 300)
+    private String name;
     @NotEmpty
     @Size(min = 1, max = 10)
-    private String userName = "";
+    @Column(nullable = false, length = 20)
+    private String userName;
     @NotEmpty
-    private String email = "";
+    @Column(nullable = false, length = 30)
+    private String email;
     @NotEmpty
     @Size(min = 8, max = 20)
-    private String password = "";
+    @Column(nullable = false, length = 20)
+    private String password;
 
+    @Column(columnDefinition = "bit default 0")
     private boolean status;
+    @Column(nullable = false, columnDefinition = "varchar(300) default 'Avatar'")
     private String avatar;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
