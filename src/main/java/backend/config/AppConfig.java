@@ -5,6 +5,8 @@ import backend.services.role.IRoleService;
 import backend.services.role.RoleServiceIMPL;
 import backend.services.sample.ISampleService;
 import backend.services.sample.SampleServiceIMPL;
+import backend.services.user.IUserService;
+import backend.services.user.UserServiceIMPL;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -191,6 +193,9 @@ public class AppConfig implements WebMvcConfigurer, ApplicationContextAware {
     public IRoleService roleService() {
         return new RoleServiceIMPL();
     }
+
+    @Bean
+    public IUserService userService() {return new UserServiceIMPL();}
 
     @Bean
     public ISampleService sampleService() {
