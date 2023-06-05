@@ -32,6 +32,20 @@ public class SampleController {
 
     @GetMapping("*")
     public ModelAndView showError404() {
-        return new ModelAndView("error.404");
+        return new ModelAndView("404/error.404");
+    }
+
+    @GetMapping("/register")
+    public ModelAndView showFormRegister() {
+        ModelAndView view = new ModelAndView("login-register/register");
+        view.addObject("option", "register");
+        return view;
+    }
+
+    @GetMapping("/login")
+    public ModelAndView showFormLogin() {
+        ModelAndView view = new ModelAndView("login-register/login");
+        view.addObject("option", "login");
+        return view;
     }
 }

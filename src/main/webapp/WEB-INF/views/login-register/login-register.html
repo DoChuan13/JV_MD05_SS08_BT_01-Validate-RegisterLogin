@@ -8,7 +8,7 @@
     <link rel="shortcut icon" th:href="@{/assets/images/owner.png}" type="image/x-icon">
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{css/login.css}">
+    <link rel="stylesheet" th:href="@{css/login-register.css}">
 </head>
 <body>
 <div class="main">
@@ -108,10 +108,5 @@
     }
 
     window.addEventListener("load", mainF);
-</script>
-<script th:if="${option=='login'}">
-    if (switchC2.className.includes('is-hidden')) {
-        setTimeout(changeForm, 1)
-    }
 </script>
 </html>

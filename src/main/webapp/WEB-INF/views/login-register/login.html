@@ -8,9 +8,9 @@
     <link rel="shortcut icon" th:href="@{/assets/images/owner.png}" type="image/x-icon">
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{css/login.css}">
+    <link rel="stylesheet" th:href="@{css/login-register.css}">
 </head>
-<body>
+<body onload="changeForm()">
 <div class="main">
     <div class="container a-container" id="a-container">
         <form class="form" id="a-form" method="get" th:action="@{/register}">
@@ -69,54 +69,10 @@
     </div>
 </div>
 </body>
-<script>
-    let switchCtn = document.querySelector("#switch-cnt");
-    let switchC1 = document.querySelector("#switch-c1");
-    let switchC2 = document.querySelector("#switch-c2");
-    let switchCircle = document.querySelectorAll(".switch__circle");
-    let switchBtn = document.querySelectorAll(".switch-btn");
-    let aContainer = document.querySelector("#a-container");
-    let bContainer = document.querySelector("#b-container");
-    let allButtons = document.querySelectorAll(".submit");
-
-    let getButtons = (e) => e.preventDefault()
-
-    let changeForm = () => {
-
-        switchCtn.classList.add("is-gx");
-        setTimeout(function () {
-            switchCtn.classList.remove("is-gx");
-        }, 1500)
-
-        switchCtn.classList.toggle("is-txr");
-        switchCircle[0].classList.toggle("is-txr");
-        switchCircle[1].classList.toggle("is-txr");
-
-        switchC1.classList.toggle("is-hidden");
-        switchC2.classList.toggle("is-hidden");
-        aContainer.classList.toggle("is-txl");
-        bContainer.classList.toggle("is-txl");
-        bContainer.classList.toggle("is-z200");
-    }
-
-    let mainF = (e) => {
-        let i;
-        for (i = 0; i < allButtons.length; i++)
-            allButtons[i].addEventListener("click", getButtons);
-        for (i = 0; i < switchBtn.length; i++)
-            switchBtn[i].addEventListener("click", changeForm)
-    }
-
-    window.addEventListener("load", mainF);
-</script>
-<script th:if="${option=='register'}">
-    if (switchC1.className.includes('is-hidden')) {
-        setTimeout(changeForm, 1)
-    }
-</script>
-<script th:if="${option=='login'}">
+<script th:src="@{js/login-register.js}"></script>
+<!--<script th:if="${option=='login'}">
     if (switchC2.className.includes('is-hidden')) {
         setTimeout(changeForm, 1)
     }
-</script>
+</script>-->
 </html>
