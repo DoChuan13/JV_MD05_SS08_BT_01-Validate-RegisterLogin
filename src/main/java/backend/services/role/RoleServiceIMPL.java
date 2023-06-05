@@ -45,6 +45,5 @@ public class RoleServiceIMPL implements IRoleService {
             roleList.add(new Role(3, RoleName.USER));
             roleRepository.saveAll(roleList);
         }
-        System.out.println(roleSize);
     }
 }
