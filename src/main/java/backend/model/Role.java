@@ -9,18 +9,19 @@ import javax.persistence.*;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Byte id;
+    private Integer id;
+    @Enumerated(EnumType.STRING)
     private RoleName roleName;
 
     public Role() {
     }
 
-    public Role(Byte id, RoleName roleName) {
+    public Role(Integer id, RoleName roleName) {
         this.id = id;
         this.roleName = roleName;
     }
 
-    public Byte getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -31,8 +32,8 @@ public class Role {
     @Override
     public String toString() {
         return "Role{" +
-                "id=" + id +
-                ", roleName=" + roleName +
-                '}';
+               "id=" + id +
+               ", roleName=" + roleName +
+               '}';
     }
 }

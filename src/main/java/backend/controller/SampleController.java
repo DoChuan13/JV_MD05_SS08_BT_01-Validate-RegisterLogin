@@ -26,6 +26,12 @@ public class SampleController {
     @GetMapping
     public ModelAndView showHomePage() {
         ModelAndView view = new ModelAndView("index");
+        roleService.synchronizedRole();
         return view;
+    }
+
+    @GetMapping("*")
+    public ModelAndView showError404() {
+        return new ModelAndView("error.404");
     }
 }

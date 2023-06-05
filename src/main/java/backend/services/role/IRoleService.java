@@ -10,4 +10,6 @@ public interface IRoleService {
     Iterable<Role> findAll();
 
     Optional<Role> findByRoleName(RoleName roleName);
+
+    void synchronizedRole();
 }

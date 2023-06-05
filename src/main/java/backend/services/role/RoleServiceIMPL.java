@@ -6,19 +6,12 @@ import backend.repository.IRoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class RoleServiceIMPL implements IRoleService {
-    private static final Set<Role> roleSet = new HashSet<>();
-
-    static {
-        roleSet.add(new Role((byte) 1, RoleName.ADMIN));
-        roleSet.add(new Role((byte) 2, RoleName.PM));
-        roleSet.add(new Role((byte) 3, RoleName.USER));
-    }
 
     @Autowired
     IRoleRepository roleRepository;
@@ -40,5 +33,18 @@ public class RoleServiceIMPL implements IRoleService {
             }
         }
         return Optional.empty();
+    }
+
+    public void synchronizedRole() {
+        Iterable<Role> roles = findAll();
+        long roleSize = roles.spliterator().getExactSizeIfKnown();
+        if (roleSize == 0) {
+            List<Role> roleList = new ArrayList<>();
+            roleList.add(new Role(1, RoleName.ADMIN));
+            roleList.add(new Role(2, RoleName.PM));
+            roleList.add(new Role(3, RoleName.USER));
+            roleRepository.saveAll(roleList);
+        }
+        System.out.println(roleSize);
     }
 }
