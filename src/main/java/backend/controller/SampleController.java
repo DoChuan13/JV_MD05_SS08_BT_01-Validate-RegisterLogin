@@ -70,6 +70,9 @@ public class SampleController {
             rd.addFlashAttribute("validate", "Register Failed!!!");
             return "redirect:/register";
         }
+        /*Set<Role> roles = new HashSet<>();
+        roles.add(new Role(3, RoleName.USER));
+        user.setRoleSet(roles);*/
         userService.save(user);
         rd.addFlashAttribute("validate", "Register Success!!!");
         return "redirect:/login";

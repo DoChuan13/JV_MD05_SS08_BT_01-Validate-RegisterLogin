@@ -35,10 +35,10 @@ public class User extends ImplicitNamingStrategyJpaCompliantImpl {
 
     @Column(columnDefinition = "bit default 0")
     private boolean status;
-    @Column(nullable = false, columnDefinition = "varchar(300) default 'Avatar'")
+    @Column(columnDefinition = "varchar(300) default 'Avatar'")
     private String avatar;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "user_role",
                joinColumns = @JoinColumn(foreignKey = @ForeignKey(name = "fk_ur_user_id"), name = "user_Id"),
                inverseJoinColumns = @JoinColumn(foreignKey = @ForeignKey(name = "fk_ur_role_id"), name = "role_Id"))
