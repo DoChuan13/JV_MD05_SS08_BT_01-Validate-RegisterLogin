@@ -10,6 +10,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" th:href="@{css/login-register.css}">
 </head>
+<style>
+    .validate {
+        font-size: 14px;
+        color: red !important;
+    }
+</style>
 <body onload="changeForm()">
 <div class="main">
     <div class="container a-container is-txl" id="a-container">
@@ -30,7 +36,20 @@
             <input class="form__input" placeholder="Email" required th:field="*{email}" type="email">
             <input class="form__input" placeholder="Password" required th:field="*{password}" type="password">
             <input class="form__input" name="rePassword" placeholder="Re-password" required type="password">
-            <p style="font-size: 20px; color: red" th:text="${validate}"></p>
+            <p class="validate" th:if="${#fields.hasErrors('name')}">
+                Name Field is not empty or invalid
+            </p>
+            <p class="validate" th:if="${#fields.hasErrors('userName')}">
+                User Name is not empty or invalid
+            </p>
+            <p class="validate" th:if="${#fields.hasErrors('email')}">
+                Email is not empty or invalid
+            </p>
+            <p class="validate" th:if="${#fields.hasErrors('password')}">
+                Password is not empty or invalid
+            </p>
+            <p class="validate" th:if="${validate}!=null" th:text="${validate}">
+            </p>
             <button class="form__button button" type="submit">SIGN UP</button>
         </form>
     </div>

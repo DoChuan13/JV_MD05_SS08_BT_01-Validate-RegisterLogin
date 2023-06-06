@@ -3,6 +3,7 @@ package backend.model;
 import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.HashSet;
@@ -26,6 +27,7 @@ public class User extends ImplicitNamingStrategyJpaCompliantImpl {
     @Column(nullable = false, length = 20)
     private String userName;
     @NotEmpty
+    @Email
     @Column(nullable = false, length = 30)
     private String email;
     @NotEmpty
@@ -38,10 +40,10 @@ public class User extends ImplicitNamingStrategyJpaCompliantImpl {
     @Column(columnDefinition = "varchar(300) default 'Avatar'")
     private String avatar;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
-               joinColumns = @JoinColumn(foreignKey = @ForeignKey(name = "fk_ur_user_id"), name = "user_Id"),
-               inverseJoinColumns = @JoinColumn(foreignKey = @ForeignKey(name = "fk_ur_role_id"), name = "role_Id"))
+            joinColumns = @JoinColumn(foreignKey = @ForeignKey(name = "fk_ur_user_id"), name = "user_Id"),
+            inverseJoinColumns = @JoinColumn(foreignKey = @ForeignKey(name = "fk_ur_role_id"), name = "role_Id"))
     private Set<Role> roleSet = new HashSet<>();
 
     public User() {
@@ -127,7 +129,7 @@ public class User extends ImplicitNamingStrategyJpaCompliantImpl {
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", name='" + name + '\'' + ", userName='" + userName + '\'' + ", email='" +
-               email + '\'' + ", password='" + password + '\'' + ", status=" + status + ", avatar='" + avatar + '\'' +
-               ", roleSet=" + roleSet + '}';
+                email + '\'' + ", password='" + password + '\'' + ", status=" + status + ", avatar='" + avatar + '\'' +
+                ", roleSet=" + roleSet + '}';
     }
 }

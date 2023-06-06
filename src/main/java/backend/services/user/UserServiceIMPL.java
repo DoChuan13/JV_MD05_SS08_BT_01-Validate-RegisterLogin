@@ -40,13 +40,13 @@ public class UserServiceIMPL implements IUserService {
     }
 
     @Override
-    public Optional<User> checkExistUserName(String userName) {
-        return userRepository.checkExistUserName(userName);
+    public boolean existsByUserName(String userName) {
+        return userRepository.existsByUserName(userName);
     }
 
     @Override
-    public Optional<User> checkExistEmail(String email) {
-        return userRepository.checkExistEmail(email);
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
     }
 
     @Override

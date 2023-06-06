@@ -1,12 +1,15 @@
 package backend.controller;
 
+import backend.model.Role;
 import backend.model.Sample;
 import backend.model.User;
+import backend.model.enums.RoleName;
 import backend.services.role.IRoleService;
 import backend.services.sample.ISampleService;
 import backend.services.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping(value = {"/"})
@@ -34,10 +39,14 @@ public class SampleController {
     }
 
     @ModelAttribute("registerUser")
-    public User registerUser() {return new User();}
+    public User registerUser() {
+        return new User();
+    }
 
     @ModelAttribute("loginUser")
-    public User loginUser() {return new User();}
+    public User loginUser() {
+        return new User();
+    }
 
     @GetMapping
     public ModelAndView showHomePage() {
@@ -59,22 +68,24 @@ public class SampleController {
     }
 
     @PostMapping("/register")
-    public String actionRegister(
-            @Validated
-            @ModelAttribute("registerUser")
-            User user, BindingResult bindingResult, RedirectAttributes rd) {
-        boolean existUserName = userService.checkExistUserName(user.getUserName()).isPresent();
-        boolean existEmail = userService.checkExistEmail(user.getEmail()).isPresent();
+    public String actionRegister(@Validated @ModelAttribute("registerUser") User user, BindingResult bindingResult, Model model) {
+        boolean existUserName = userService.existsByUserName(user.getUserName());
+        boolean existEmail = userService.existsByEmail(user.getEmail());
         boolean error = bindingResult.hasFieldErrors();
         if (existUserName || existEmail || error) {
-            rd.addFlashAttribute("validate", "Register Failed!!!");
-            return "redirect:/register";
+            System.out.println(bindingResult.getFieldError());
+            if (existUserName) {
+                model.addAttribute("validate", "Existed UserName");
+            }
+            if (existEmail) {
+                model.addAttribute("validate", "Existed Email");
+            }
+            return "login-register/register";
         }
-        /*Set<Role> roles = new HashSet<>();
+        Set<Role> roles = new HashSet<>();
         roles.add(new Role(3, RoleName.USER));
-        user.setRoleSet(roles);*/
+        user.setRoleSet(roles);
         userService.save(user);
-        rd.addFlashAttribute("validate", "Register Success!!!");
         return "redirect:/login";
     }
 
@@ -86,8 +97,7 @@ public class SampleController {
     }
 
     @PostMapping("/login")
-    public String actionLogin(
-            @ModelAttribute("loginUser") User user, RedirectAttributes rd) {
+    public String actionLogin(@ModelAttribute("loginUser") User user, RedirectAttributes rd) {
         Optional<User> checkLogin = userService.loginUser(user.getUserName(), user.getPassword());
         User loginUser = null;
         if (checkLogin.isPresent()) {

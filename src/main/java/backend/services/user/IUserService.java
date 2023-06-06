@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface IUserService extends IGenericService<User> {
     Page<User> findByName(String name, Pageable pageable);
 
-    Optional<User> checkExistUserName(String userName);
+    boolean existsByUserName(String userName);
 
-    Optional<User> checkExistEmail(String email);
+    boolean existsByEmail(String email);
 
     Optional<User> loginUser(String userName, String password);
 }

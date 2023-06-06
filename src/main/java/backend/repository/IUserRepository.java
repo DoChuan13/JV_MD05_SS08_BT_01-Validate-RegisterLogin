@@ -21,11 +21,7 @@ public interface IUserRepository extends PagingAndSortingRepository<User, Long> 
             @Param("userName") String userName,
             @Param("password") String password);
 
-    @Query("select us from User as us where us.userName = :userName")
-    Optional<User> checkExistUserName(
-            @Param("userName") String userName);
+    boolean existsByUserName(String userName);
 
-    @Query("select us from User as us where us.email = :email")
-    Optional<User> checkExistEmail(
-            @Param("email") String email);
+    boolean existsByEmail(String email);
 }
